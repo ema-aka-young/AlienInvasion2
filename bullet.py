@@ -19,7 +19,7 @@ class Bullet(Sprite):
         self.speed_factor = ai_settings.bullet_speed_factor
 
     def update(self):
-        #move bullet
+        #move bullets another way
         self.y -=self.speed_factor
         #update rect bullet position
         self.rect.y = self.y
