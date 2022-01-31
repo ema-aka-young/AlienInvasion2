@@ -1,7 +1,9 @@
 import sys
 
 import pygame
+from alien import Alien
 from bullet import Bullet
+
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
     if event.key == pygame.K_RIGHT:
@@ -12,6 +14,9 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         if len(bullets) < ai_settings.bullets_allowed:
             new_bullet = Bullet(ai_settings, screen, ship)
             bullets.add(new_bullet)
+    elif event.key == pygame.K_q:
+        sys.exit()
+
 
 def check_keyup_events(event, ship):
     if event.key == pygame.K_RIGHT:
@@ -19,24 +24,27 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
+
 def check_events(ai_settings, screen, ship, bullets):
-    #respond to keypress and mouse
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                check_keydown_events(event, ai_settings, screen, ship, bullets)
-            elif event.type == pygame.KEYUP:
-                check_keyup_events(event,ship)
+    # respond to keypress and mouse
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            check_keydown_events(event, ai_settings, screen, ship, bullets)
+        elif event.type == pygame.KEYUP:
+            check_keyup_events(event, ship)
 
 
-def update_screen(ai_settings, screen, ship, bullets):
-        screen.fill((ai_settings.bg_color))
-        for bullet in bullets.sprites():
-            bullet.draw_bullet()
-        ship.blitme()
-         #Make the most recently drawn screen visible
-        pygame.display.flip()
+def update_screen(ai_settings, screen, ship, alien, bullets):
+    screen.fill((ai_settings.bg_color))
+    for bullet in bullets.sprites():
+        bullet.draw_bullet()
+    ship.blitme()
+    alien.blitme()
+    # Make the most recently drawn screen visible
+    pygame.display.flip()
+
 
 def update_bullets(bullets):
     bullets.update()
